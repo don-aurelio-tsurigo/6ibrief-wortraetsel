@@ -1,0 +1,31 @@
+name = "6ibrief-wortraetsel"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# Statische Dateien (das Spiel) werden direkt von Cloudflare ausgeliefert.
+# Anfragen an Pfade, die keiner Datei hier entsprechen (z.B. /api/guess),
+# werden automatisch an src/index.js weitergereicht.
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# Eigene D1-Datenbank für einfache Tages-Statistiken (Spiele, Siege, Ø Versuche/Zeit)
+# -> getrennt vom Tsüri Worträtsel, damit sich die Zahlen nicht vermischen
+[[d1_databases]]
+binding = "DB"
+database_name = "6ibrief-wortraetsel-stats"
+database_id = "c392cef9-38ba-4fbf-a5e5-2c32293a740c"
+
+# Nicht-geheime Konfiguration
+[vars]
+# Frontend und Backend laufen auf derselben Domain -> CORS eigentlich nicht
+# nötig. "*" schadet aber nicht, falls du das Spiel später zusätzlich woanders
+# einbetten willst.
+ALLOWED_ORIGIN = "*"
+
+# Geheime Werte NICHT hier eintragen, sondern im Cloudflare Dashboard unter
+# Settings -> Variables and Secrets setzen (gleiche Werte wiederverwendbar
+# aus dem Tsüri-Worträtsel-Projekt):
+#   NOTION_TOKEN
+#   NOTION_DATABASE_ID
+#   SLACK_WEBHOOK_URL (optional)
